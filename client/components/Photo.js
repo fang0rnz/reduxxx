@@ -4,8 +4,19 @@ import { connect } from 'react-redux';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Photo extends React.Component {
+
+    constructor() {
+        super();
+        this.handleOnClick = this.handleOnClick.bind(this);
+    }
+
+    handleOnClick () {
+        this.props.increment(this.props.i);
+    }
+
+    //
+
     render () {
-        console.log('xxx' ,this.props);
         const {post, i, comments} = this.props;
         return (
             <figure className="grid-figure">
@@ -15,11 +26,12 @@ class Photo extends React.Component {
                         className="grid-photo" />
                     </Link>
 
-                    <CSSTransitionGroup transitionName="like"
-                    transitionEnterTimeOut={500}
-                    transitionLeaveTimeOut={500}>
+                    <CSSTransitionGroup 
+                    transitionName="like"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}>
                     <span key={post.likes} className="likes-heart">
-                    {post.likes}
+                        {post.likes}
                     </span>
                     </CSSTransitionGroup>
 
@@ -27,6 +39,17 @@ class Photo extends React.Component {
 
                 <figcaption>
                     <p>{post.caption}</p>
+                    <div className="control-buttons">
+                        <button onClick={this.handleOnClick} className="likes">
+                            ❤ {post.likes}
+                        </button>
+                        <Link className="button" to={`/view/${post.code}`}> 
+                            <span className="comment-count">
+                                <span className="speech-bubble"></span>
+                                {comments[post.code] ? comments[post.code].length : 0}
+                            </span>
+                        </Link>
+                    </div>
                 </figcaption>
 
             </figure>
@@ -36,7 +59,6 @@ class Photo extends React.Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         posts: state.posts,
         comments: state.comments
