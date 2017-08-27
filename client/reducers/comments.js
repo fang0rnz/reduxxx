@@ -7,7 +7,14 @@ function postComments (state = [], action) {
                 text: action.comment
             }];
         case 'REMOVE_COMMENT':
-            return state;
+            console.log('remove coms');
+
+            //return state without deleted comment
+            return [
+                ...state.slice(0,action.i), //TODO:where does action live?
+                ...state.slice(action.i + 1) 
+            ]
+
         default:
             return state;
     }

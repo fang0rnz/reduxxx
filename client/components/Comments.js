@@ -5,26 +5,36 @@ class Comments extends React.Component {
     constructor(){
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.renderComment = this.renderComment.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     
     renderComment(comment, i) {
+        
         return (
             <div className="comment" key={i}>
                 <p>
                     <strong>{comment.user}</strong>
                     {comment.text}
                     <button className="remove-comment"
-                    
+                    onClick={() => this.handleRemove(i)}
                     >&times;
                     </button>
                 </p>
             </div>
         )
     }
-//onClick={this.props.removeComment.bind(null, this.props.params.postId, i)}
+
+    handleRemove (i) {
+        console.log(i); //how to get by props??
+        const { postId } = this.props.params;
+        this.props.removeComment(postId, i);
+       
+    }
 
 
+    
     handleSubmit (e) {
         e.preventDefault();
         const {postId} = this.props.params;
